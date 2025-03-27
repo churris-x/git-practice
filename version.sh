@@ -1,14 +1,10 @@
 #!/bin/bash
 # MIT Francisco Altimari @1743081961
-
-# version < major | minor | patch >
-# Create a commit, create a tag with the correct message
-# Find previous versions and increment from them
-# Also allow for specific version to be added
-
 #         --tag-    semver
 # git tag v1.0.0 -m 1.0.0
 
+
+# TODO: Also allow for specific version to be added
 bumpversion () {
     # Show help if missing args
     if [ $# -eq 0 ]; then 
@@ -39,21 +35,17 @@ bumpversion () {
 
     UPDATE="$MAJOR.$MINOR.$PATCH"
 
-    echo "Bumping from $VERSION => v$UPDATE"
+    printf "Bumping from $VERSION => v$UPDATE\n\n"
 
     git commit -v --allow-empty --edit -m "$UPDATE"
 
-    [ $? -ne 0 ] && return 1    
+    [ $? -ne 0 ] && return 1
     git tag "v$UPDATE" -m $UPDATE
-
 }
 
 
 bumpversion minor
 
-
-
-# git push --tags
 # git push --tags origin master
 
 
