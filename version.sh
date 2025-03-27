@@ -41,12 +41,15 @@ bumpversion () {
 
     echo "Bumping from $VERSION => v$UPDATE"
 
+    git commit -v --allow-empty --edit -m "$UPDATE"
+
+    [ $? -ne 0 ] && return 1    
     git tag "v$UPDATE" -m $UPDATE
 
 }
 
 
-bumpversion patch
+bumpversion minor
 
 
 
