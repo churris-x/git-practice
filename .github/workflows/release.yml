@@ -1,0 +1,33 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+    workflow_dispatch:
+
+jobs:
+  check_version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: |
+          git fetch --tags --force
+          CURRENT='${{ github.ref_name }}'
+          LATEST=$(git tag | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+' | tail -1)
+          if [[ $CURRENT -lt $LATEST ]]; then
+            echo "ERROR: current manifest version $CURRENT is lower than latest version $LATEST"
+            exit 1
+          fi
+          echo "Version $CURRENT is valid, continuing to build"
+
+
+  zip_build:
+    needs: check_version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Release thing
+        run: echo 'Release the kraken!'
