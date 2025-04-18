@@ -22,7 +22,7 @@ jobs:
             echo "ERROR: current version $CURRENT is lower than latest version $LATEST"
             exit 1
           fi
-          echo "Version $CURRENT is valid, continuing to build"
+          echo "Version $CURRENT is greater or equal to latest $LATEST, continuing to build"
 
 
   zip_build:
